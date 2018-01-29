@@ -42,8 +42,8 @@
 			<!-- Here we tell the maven assembly plugin to be configured to integrate -->
 			<!-- the dependencies inside the produced jar to have a big archive and -->
 			<!-- which class is the Main class to add it to the Manifest so that it 
-				can be ran with `java -jar -->
-			<!-- jarName.jar` from the command line -->
+				can be ran with `java -jar target/jdbc-mysql-0.0.1-SNAPSHOT-jar-with-dependencies.jar` 
+				from the command line -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -59,10 +59,12 @@
 				</configuration>
 				<executions>
 					<execution>
-<!-- 						Here we tell the maven assembly to run during (or after) the package phase -->
-						<phase>package</phase> 
+						<!-- Here we tell the maven assembly to run during (or after) the package 
+							phase -->
+						<phase>package</phase>
 						<goals>
-<!-- 							Here we tell the assembly to run the goal "single" when the package phase is invoked -->
+							<!-- Here we tell the assembly to run the goal "single" when the package 
+								phase is invoked -->
 							<goal>single</goal>
 						</goals>
 					</execution>
