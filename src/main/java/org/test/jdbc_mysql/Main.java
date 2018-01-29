@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.test.Connectors.MySQLManager;
 import org.test.Entities.Score;
+import org.test.util.HibernateUtil;
 
 /**
  * Hello world!
@@ -13,6 +14,7 @@ import org.test.Entities.Score;
 public class Main {
 	public static void main(String[] args) throws SQLException {
 		MySQLManager.createScoreHibernate(5);
+		HibernateUtil.closeSessionFactory();
 //		createDummyScore();
 //		showExistingScoresInDB();
 	}
