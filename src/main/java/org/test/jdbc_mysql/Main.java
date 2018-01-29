@@ -12,8 +12,9 @@ import org.test.Entities.Score;
  */
 public class Main {
 	public static void main(String[] args) throws SQLException {
-		createDummyScore();
-		showExistingScoresInDB();
+		MySQLManager.createScoreHibernate(5);
+//		createDummyScore();
+//		showExistingScoresInDB();
 	}
 	
 	public static void createDummyScore(){

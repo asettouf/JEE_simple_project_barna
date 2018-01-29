@@ -1,32 +1,41 @@
 package org.test.Entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="SCORE")
 public class Score {
 
+	@Id
 	private int id;
-	private int value;
+	@Column
+	private int score;
 
 	public Score(int value) {
 		super();
-		this.value = value;
+		this.score = value;
 	}
 
 	public Score(int id, int value) {
 		super();
 		this.id = id;
-		this.value = value;
+		this.score = value;
 	}
 
 	@Override
 	public String toString() {
-		return "Score [id=" + id + ", value=" + value + "]";
+		return "Score [id=" + id + ", value=" + score + "]";
 	}
 
-	public int getValue() {
-		return value;
+	public int getScore() {
+		return score;
 	}
 
-	public void setValue(int value) {
-		this.value = value;
+	public void setScore(int value) {
+		this.score = value;
 	}
 
 }

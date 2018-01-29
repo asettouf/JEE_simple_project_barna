@@ -9,8 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.test.Entities.Movie;
 import org.test.Entities.Score;
+import org.test.util.HibernateUtil;
 
 public class MySQLManager {
 	private static Connection conn = null;
@@ -36,10 +38,22 @@ public class MySQLManager {
 		Connection conn = getConnection();
 		String sqlQuery = "INSERT INTO SCORE (SCORE) VALUES(?)";
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
-			stmt.setInt(1, score.getValue());
+			stmt.setInt(1, score.getScore());
 			stmt.executeUpdate();
 			System.out.println("Score inserted : " + score);
 		}
+	}
+	
+	public static void createScoreHibernate(int scoreValue){
+		//Here we get a session from the Hibernate session factory
+		Session session = HibernateUtil.getSessionfactory().openSession();
+		Score score = new Score(scoreValue);
+		//Now we instruct it to start a transaction with the Database
+		session.beginTransaction();
+		//Save the new score
+		session.save(score);
+		//Commit the transaction so that it gets recorded
+		session.getTransaction().commit();
 	}
 
 
