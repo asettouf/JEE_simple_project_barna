@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.test.Entities.Movie;
+import org.test.Entities.Actor;
+import org.test.Entities.Model;
 import org.test.Entities.Score;
 import org.test.util.HibernateUtil;
 
@@ -55,7 +56,14 @@ public class MySQLManager {
 		//Commit the transaction so that it gets recorded
 		session.getTransaction().commit();
 	}
-
+	
+	public static void createModelHibernate(Model model){
+		Session session = HibernateUtil.getSessionfactory().openSession();
+		session.beginTransaction();
+		session.save(model);
+		session.getTransaction().commit();
+		
+	}
 
 	private static Connection getConnection() throws SQLException {
 		if (conn == null) {
