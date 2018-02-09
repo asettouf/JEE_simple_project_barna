@@ -24,6 +24,7 @@ public class Actor implements Model{
 		this.age = age;
 		this.email = email;
 	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name="ACTOR_ID")

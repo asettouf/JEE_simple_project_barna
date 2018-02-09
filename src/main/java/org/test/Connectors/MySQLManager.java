@@ -1,75 +1,38 @@
 package org.test.Connectors;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.test.Entities.Actor;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.test.Entities.Model;
 import org.test.Entities.Score;
-import org.test.util.HibernateUtil;
 
+@Repository
 public class MySQLManager {
-	private static Connection conn = null;
 
-	public static List<Score> retrieveExistingScores() throws SQLException {
-		List<Score> scores = new ArrayList<Score>();
-		Connection conn = getConnection();
-		try (Statement stmt = conn.createStatement()) {
-			String sqlQuery = "SELECT * FROM SCORE";
-			try (ResultSet rs = stmt.executeQuery(sqlQuery)) {
-				while (rs.next()) {
-					int scoreId = rs.getInt("ID");
-					int scoreValue = rs.getInt("ID");
-					scores.add(new Score(scoreId, scoreValue));
-				}
-			}
-		}
-		return scores;
-	}
+	@Autowired
+	private SessionFactory sessionFactory; // Spring to instantiate it
 
-
-	public static void createScore(Score score) throws SQLException {
-		Connection conn = getConnection();
-		String sqlQuery = "INSERT INTO SCORE (SCORE) VALUES(?)";
-		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
-			stmt.setInt(1, score.getScore());
-			stmt.executeUpdate();
-			System.out.println("Score inserted : " + score);
-		}
-	}
-	
-	public static void createScoreHibernate(int scoreValue){
-		//Here we get a session from the Hibernate session factory
-		Session session = HibernateUtil.getSessionfactory().openSession();
+	public void createScoreHibernate(int scoreValue) {
+		// Here we get a session from the Hibernate session factory
+		Session session = sessionFactory.openSession();
 		Score score = new Score(scoreValue);
-		//Now we instruct it to start a transaction with the Database
+		// Now we instruct it to start a transaction with the Database
 		session.beginTransaction();
-		//Save the new score
+		// Save the new score
 		session.save(score);
-		//Commit the transaction so that it gets recorded
+		// Commit the transaction so that it gets recorded
 		session.getTransaction().commit();
 	}
-	
-	public static void createModelHibernate(Model model){
-		Session session = HibernateUtil.getSessionfactory().openSession();
+
+	public void createModelHibernate(Model model) {
+		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.save(model);
 		session.getTransaction().commit();
-		
+		System.out.println("Everything worked fine!");
+
 	}
 
-	private static Connection getConnection() throws SQLException {
-		if (conn == null) {
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost/MOVIES",
-					"movie_admin", null);
-		}
-		return conn;
-	}
 }
